@@ -105,6 +105,10 @@ stages:
               Location: ${{ parameters.Location }}
               ServiceDirectory: ${{ parameters.ServiceDirectory }}
               TestSetupSteps: ${{ parameters.TestSetupSteps }}
+              Artifacts: ${{ parameters.Artifacts }}
+              AdditionalModules: ${{ parameters.AdditionalModules }}
+              TestResultsFiles: ${{ parameters.TestResultsFiles }}
+              DisableAzureResourceCreation: ${{ parameters.DisableAzureResourceCreation }}
             MatrixConfigs:
               # Enumerate platforms and additional platforms based on supported clouds (sparse platform<-->cloud matrix).
               - ${{ each config in parameters.MatrixConfigs }}:

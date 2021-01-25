@@ -1,7 +1,6 @@
 {
   "displayNames": {
-    "/p:UseProjectReferenceToAzureClients=true": "UseProjectRef",
-    "true": "Record"
+    "true": "TestFromSource"
   },
   "matrix": {
     "Agent": {
