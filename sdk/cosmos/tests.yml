@@ -15,7 +15,7 @@ stages:
             Cloud: Public
           MatrixConfigs:
             - Name: Cosmos_live_test
-              Path: eng/sdk/cosmos/platform-matrix.json
+              Path: sdk/cosmos/platform-matrix.json
               Selection: all
               GenerateVMJobs: true
           AdditionalParameters:
@@ -38,6 +38,7 @@ stages:
             TestResultsFiles: '**/junitreports/TEST-*.xml'
 
   - stage: Cosmos_Live_Test_Integration
+    dependsOn: []
     jobs:
       - template: /eng/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
         parameters:
@@ -46,7 +47,7 @@ stages:
             Cloud: Public
           MatrixConfigs:
             - Name: Cosmos_live_test_integration
-              Path: eng/sdk/cosmos/integration-matrix.json
+              Path: sdk/cosmos/integration-matrix.json
               Selection: all
               GenerateVMJobs: true
           AdditionalParameters:
