@@ -1,0 +1,101 @@
+{
+  "displayNames": {
+    "-Pe2e": "E2E",
+    "-DargLine=\"-Dazure.cosmos.directModeProtocol=Https\"": "Https",
+    "-DargLine=\"-Dazure.cosmos.directModeProtocol=Tcp\"": "TCP"
+  },
+  "include": [
+    {
+      "Agent": {
+        "ubuntu": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
+      },
+      "Consistency": {
+        "Session": {
+          "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $false; defaultConsistencyLevel = 'Session' }",
+          "DESIRED_CONSISTENCY": "Session",
+          "ACCOUNT_CONSISTENCY": "Session"
+        },
+        "Strong": {
+          "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $false; defaultConsistencyLevel = 'Strong' }",
+          "DESIRED_CONSISTENCY": "Strong",
+          "ACCOUNT_CONSISTENCY": "Strong"
+        }
+      },
+      "ProfileFlag": "-Pe2e",
+      "AdditionalArgs": [
+          "-DargLine=\"-Dazure.cosmos.directModeProtocol=Https\"",
+          "-DargLine=\"-Dazure.cosmos.directModeProtocol=Tcp\""
+      ]
+    },
+    {
+      "Agent": {
+        "ubuntu": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
+      },
+      "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $false; defaultConsistencyLevel = 'Session' }",
+      "ProfileFlag": [ "-Pnon-emulator", "-Pfast", "-Pdirect", "-e -Plong" ],
+      "PROTOCOLS": "[\"Tcp\"]",
+      "DESIRED_CONSISTENCIES": "[\"Session\"]",
+      "ACCOUNT_CONSISTENCY": "Session"
+    },
+    {
+      "Agent": {
+        "ubuntu": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
+      },
+      "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $false; defaultConsistencyLevel = 'Strong' }",
+      "ProfileFlag": "-Pfast",
+      "PROTOCOLS": "[\"Tcp\"]",
+      "DESIRED_CONSISTENCIES": [ "[\"Strong\", \"Session\"]", "[\"BoundedStaleness\"]", "[\"ConsistentPrefix\"]" ],
+      "ACCOUNT_CONSISTENCY": "Strong"
+    },
+    {
+      "Agent": {
+        "ubuntu": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
+      },
+      "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $false; defaultConsistencyLevel = 'Strong' }",
+      "ProfileFlag": "-Pe2e",
+      "AdditionalArgs": "-DargLine=\"-Dazure.cosmos.directModeProtocol=Tcp\"",
+      "DESIRED_CONSISTENCY": "BoundedStaleness",
+      "ACCOUNT_CONSISTENCY": "Strong"
+    },
+    {
+      "Agent": {
+        "ubuntu": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
+      },
+      "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $false; defaultConsistencyLevel = 'Strong' }",
+      "ProfileFlag": [ "-Pdirect", "-Pnon-emulator" ],
+      "PROTOCOLS": "[\"Tcp\"]",
+      "DESIRED_CONSISTENCIES": "[\"Strong\", \"Session\"]",
+      "ACCOUNT_CONSISTENCY": "Strong"
+    },
+    {
+      "Agent": {
+        "ubuntu": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
+      },
+      "MultiMaster": {
+        "MultiRegion": {
+          "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $true; defaultConsistencyLevel = 'Strong'; enableMultipleRegions = $true }",
+          "PREFERRED_LOCATIONS": "[\"East US 2\"]"
+        },
+        "SingleRegion": {
+          "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $true; defaultConsistencyLevel = 'Strong' }",
+          "PREFERRED_LOCATIONS": null
+        }
+      },
+      "ProfileFlag": [ "-Pmulti-master", "-Pfast", "-Pdirect", "-Pnon-emulator" ],
+      "PROTOCOLS": "[\"Tcp\"]",
+      "DESIRED_CONSISTENCIES": "[\"Session\"]",
+      "ACCOUNT_CONSISTENCY": "Session"
+    },
+    {
+      "Agent": {
+        "ubuntu": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
+      },
+      "ArmTemplateParameters": "@{ enableMultipleWriteLocations = $false; defaultConsistencyLevel = 'Session'; enableMultipleRegions = $true}",
+      "ProfileFlag": "-Pmulti-region",
+      "PROTOCOLS": "[\"Tcp\"]",
+      "ACCOUNT_CONSISTENCY": "Session",
+      "DESIRED_CONSISTENCIES": "[\"Session\"]",
+      "PREFERRED_LOCATIONS": null
+    }
+  ]
+}
