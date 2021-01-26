@@ -5,12 +5,14 @@ variables:
   - name: AdditionalArgs
     value: ''
 
-jobs:
+stages:
+- stage: Cosmos Live Test
+  jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
     parameters:
       CloudConfig:
-        Public:
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        Cloud: Public
       MatrixConfigs:
         - Name: Cosmos_live_test
           Path: eng/sdk/cosmos/platform-matrix.json
@@ -35,11 +37,13 @@ jobs:
           options: '$(ProfileFlag) -Dgpg.skip $(AdditionalArgs) -pl $(ProjectList)'
         TestResultsFiles: '**/junitreports/TEST-*.xml'
 
+- stage: Cosmos Live Test Integration
+  jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-tests.yml
     parameters:
       CloudConfig:
-        Public:
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        Cloud: Public
       MatrixConfigs:
         - Name: Cosmos_live_test_integration
           Path: eng/sdk/cosmos/integration-matrix.json
