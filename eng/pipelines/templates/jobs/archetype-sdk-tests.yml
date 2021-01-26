@@ -31,9 +31,7 @@ jobs:
     condition: ne(${{ parameters.Matrix }}, '{}')
     strategy:
       maxParallel: ${{ parameters.MaxParallel }}
-      matrix:
-        Foo:
-          a: 1
+      matrix: $[ ${{ parameters.Matrix }} ]
 
     variables:
       - template: ../variables/globals.yml
