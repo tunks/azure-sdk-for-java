@@ -1,24 +1,30 @@
 trigger: none
 
-jobs:
-  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
-    parameters:
-      Artifacts:
-        - name: azure-data-tables
-          groupId: com.azure
-          safeName: azuretables
-      CloudConfig:
-        SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-        Cloud: Public
-      MatrixConfigs:
-        MatrixConfigs:
-          - Name: Tables_live_test
-            Path: sdk/tables/platform-matrix.json
-            Selection: sparse
-            GenerateVMJobs: true
-      AdditionalParameters:
-        ServiceDirectory: tables
-        Timeout: 60
-        MaxParallel: 14
-        EnvVars:
-          AZURE_TEST_MODE: LIVE
+stages:
+  - stage: Tables_Live_Test
+    jobs:
+      - template: ../../eng/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
+        parameters:
+          CloudConfig:
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+            Cloud: Public
+          MatrixConfigs:
+            MatrixConfigs:
+              - Name: Tables_live_test_18
+                Path: sdk/tables/platform-matrix.1.8.json
+                Selection: sparse
+                GenerateVMJobs: true
+              - Name: Tables_live_test_111
+                Path: sdk/tables/platform-matrix.1.11.json
+                Selection: sparse
+                GenerateVMJobs: true
+          AdditionalParameters:
+            Artifacts:
+              - name: azure-data-tables
+                groupId: com.azure
+                safeName: azuretables
+            ServiceDirectory: tables
+            Timeout: 60
+            MaxParallel: 14
+            EnvVars:
+              AZURE_TEST_MODE: LIVE

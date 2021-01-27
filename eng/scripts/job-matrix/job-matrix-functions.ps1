@@ -337,8 +337,10 @@ function GetMatrixDimensions([System.Collections.Specialized.OrderedDictionary]$
     foreach ($val in $parameters.Values) {
         if ($val -is [PSCustomObject]) {
             $dimensions += ($val.PSObject.Properties | Measure-Object).Count
-        } else {
+        } elseif ($val -is [Array]) {
             $dimensions += $val.Length
+        } else {
+            $dimensions += 1
         }
     }
 
